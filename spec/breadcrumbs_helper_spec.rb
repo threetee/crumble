@@ -36,7 +36,7 @@ describe BreadcrumbsHelper do
       end
       params[:controller] = 'accounts'
       params[:action] = 'index'
-      crumbs.should == %Q{<a href="http://test.host/account/edit">Your Account</a>}
+      crumbs.should == %Q{<a href="http://test.host/account/edit" class="active">Your Account</a>}
     end
     
     it "should support fetching an instance variable" do
@@ -46,7 +46,7 @@ describe BreadcrumbsHelper do
       end
       params[:controller] = 'accounts'
       params[:action] = 'edit'
-      crumbs.should == %Q{<a href="http://test.host/f/jonathan">Public Profile</a>}
+      crumbs.should == %Q{<a href="http://test.host/f/jonathan" class="active">Public Profile</a>}
     end
     
     it "should support fetching multiple instance variables" do
@@ -57,7 +57,7 @@ describe BreadcrumbsHelper do
         
       params[:controller] = 'accounts'
       params[:action] = 'profile'
-      crumbs.should == %Q{<a href="http://test.host/f/jonathan/articles/1">Your Article</a>}
+      crumbs.should == %Q{<a href="http://test.host/f/jonathan/articles/1" class="active">Your Article</a>}
     end
     
     it "should join multiple crumbs with a /" do
@@ -69,7 +69,7 @@ describe BreadcrumbsHelper do
       
       params[:controller] = 'accounts'
       params[:action] = 'show'
-      crumbs.should == %Q{<a href="http://test.host/f/jonathan">Public Profile</a> / <a href="http://test.host/account/edit">Your Account</a>}
+      crumbs.should == %Q{<a href="http://test.host/f/jonathan">Public Profile</a> / <a href="http://test.host/account/edit" class="active">Your Account</a>}
     end
     
     it "should return an empty string for no matches" do
@@ -89,7 +89,7 @@ describe BreadcrumbsHelper do
       params[:controller] = 'search'
       params[:action] = 'new'
       params[:q] = 'google'
-      crumbs.should == %Q{<a href="http://test.host/search?q=google">Search</a>}
+      crumbs.should == %Q{<a href="http://test.host/search?q=google" class="active">Search</a>}
     end
     
     it "should add multiple parameters to the url" do
@@ -102,7 +102,7 @@ describe BreadcrumbsHelper do
       params[:action] = 'new'
       params[:country] = 'Germany'
       params[:q] = 'google'
-      crumbs.should == %Q{<a href="http://test.host/search?q=google&amp;country=Germany">Search</a>}
+      crumbs.should == %Q{<a href="http://test.host/search?q=google&amp;country=Germany" class="active">Search</a>}
     end
     
     it "should eval single quoted title strings and interpolate them" do
@@ -115,7 +115,7 @@ describe BreadcrumbsHelper do
       params[:action] = 'create'
 
       @query = 'google'
-      crumbs.should == %Q{<a href="http://test.host/search/google">Search Results (google)</a>}
+      crumbs.should == %Q{<a href="http://test.host/search/google" class="active">Search Results (google)</a>}
     end
     
     it "should support a list of actions to configure a trail" do
@@ -126,10 +126,10 @@ describe BreadcrumbsHelper do
       
       params[:controller] = 'search'
       params[:action] = 'create'
-      crumbs.should == %Q{<a href="http://test.host/search/">Search Results ()</a>}
+      crumbs.should == %Q{<a href="http://test.host/search/" class="active">Search Results ()</a>}
       
       params[:action] = 'new'
-      crumbs.should == %Q{<a href="http://test.host/search/">Search Results ()</a>}
+      crumbs.should == %Q{<a href="http://test.host/search/" class="active">Search Results ()</a>}
     end
     
     it "should support using the current url instead of a predefined one" do
@@ -140,7 +140,7 @@ describe BreadcrumbsHelper do
       
       params[:controller] = 'search'
       params[:action] = 'new'
-      crumbs.should == %Q{<a href="http://test.host/search/new">Search Results ()</a>}
+      crumbs.should == %Q{<a href="http://test.host/search/new" class="active">Search Results ()</a>}
     end
     
     it "should not consider a trail when it has an :if condition and it's not met" do
@@ -162,7 +162,7 @@ describe BreadcrumbsHelper do
       
       params[:controller] = 'search'
       params[:action] = 'new'
-      crumbs.should == %Q{<a href="http://test.host/search/new">Search Results</a>}
+      crumbs.should == %Q{<a href="http://test.host/search/new" class="active">Search Results</a>}
     end
 
     it "should not consider a trail when it has an :unless condition and it's not met" do
@@ -184,7 +184,7 @@ describe BreadcrumbsHelper do
       
       params[:controller] = 'search'
       params[:action] = 'new'
-      crumbs.should == %Q{<a href="http://test.host/search/new">Search Results</a>}
+      crumbs.should == %Q{<a href="http://test.host/search/new" class="active">Search Results</a>}
     end
     
     it "should call blocks as :unless parameters" do
@@ -206,7 +206,7 @@ describe BreadcrumbsHelper do
       
       params[:controller] = 'search'
       params[:action] = 'new'
-      crumbs.should == "<a href=\"http://test.host/search/new\">Search Results</a>"
+      crumbs.should == "<a href=\"http://test.host/search/new\" class=\"active\">Search Results</a>"
     end
     
     it "should support resolving parameters for url methods derived from a string" do
@@ -217,7 +217,7 @@ describe BreadcrumbsHelper do
       
       params[:controller] = 'search'
       params[:action] = 'new'
-      crumbs.should == %Q{<a href="http://test.host/search/jonathan">Search Results</a>}
+      crumbs.should == %Q{<a href="http://test.host/search/jonathan" class="active">Search Results</a>}
     end
 
     it "should support resolving parameters for url methods derived from a hash pointing to an object hierarchy" do
@@ -228,7 +228,7 @@ describe BreadcrumbsHelper do
       
       params[:controller] = 'search'
       params[:action] = 'new'
-      crumbs.should == %Q{<a href="http://test.host/search/jonathan">Search Results</a>}
+      crumbs.should == %Q{<a href="http://test.host/search/jonathan" class="active">Search Results</a>}
     end
 
     it "should support resolving parameters for url methods derived from a hash pointing to a nested object hierarchy" do
@@ -239,7 +239,7 @@ describe BreadcrumbsHelper do
       
       params[:controller] = 'search'
       params[:action] = 'new'
-      crumbs.should == %Q{<a href="http://test.host/search/jonathan">Search Results</a>}
+      crumbs.should == %Q{<a href="http://test.host/search/jonathan" class="active">Search Results</a>}
     end
     
     it "should return the same breadcrumbs on subsequent calls" do
